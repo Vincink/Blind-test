@@ -50,7 +50,6 @@
         </span>
       </div>
       
-      <!-- Bouton Retour / Quitter (Présent sur tous les écrans dynamiquement) -->
       <button id="global-back-btn" onclick="confirmQuit()" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-2 rounded-lg font-semibold transition border border-slate-700 flex items-center gap-2">
         <i class="fa-solid fa-arrow-left"></i>
         <span>Menu</span>
@@ -61,33 +60,31 @@
   <!-- ==================== CONTENU PRINCIPAL ==================== -->
   <main class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col justify-center">
 
-    <!-- 1. ÉCRAN D'ACCUEIL (MENU) -->
+    <!-- 1. ÉCRAN D'ACCUEIL -->
     <div id="view-home" class="space-y-8 text-center py-6">
       <div class="space-y-3">
         <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight">
           Soirée Musique & <br>
           <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
-            Buzzer Smartphone
+            Buzzers Sonores
           </span>
         </h1>
         <p class="text-slate-400 text-base md:text-lg max-w-lg mx-auto">
-          Hébergez la partie sur grand écran (TV/PC) et transformez jusqu'à 10 téléphones en buzzers instantanés sans serveur.
+          Hébergez la partie sur grand écran (TV/PC) avec catégories de chansons et sons de buzzers personnalisés par joueur !
         </p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-4 max-w-xl mx-auto pt-4">
-        <!-- Option Hôte -->
         <button onclick="startHostLobby()" class="group relative bg-slate-900 border border-purple-500/30 hover:border-purple-500 p-6 rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/20 flex flex-col justify-between">
           <div class="w-12 h-12 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-500 group-hover:text-white transition">
             <i class="fa-solid fa-tv"></i>
           </div>
           <div>
             <h2 class="text-xl font-bold text-white mb-1">Créer une partie</h2>
-            <p class="text-xs text-slate-400">Écran principal (TV / PC / Tablette). Génère le QR Code et joue la musique.</p>
+            <p class="text-xs text-slate-400">Écran principal (TV / PC / Tablette). Génère le QR Code et la musique.</p>
           </div>
         </button>
 
-        <!-- Option Joueur -->
         <button onclick="showPlayerJoinForm()" class="group relative bg-slate-900 border border-pink-500/30 hover:border-pink-500 p-6 rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-pink-500/20 flex flex-col justify-between">
           <div class="w-12 h-12 bg-pink-500/10 text-pink-400 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-pink-500 group-hover:text-white transition">
             <i class="fa-solid fa-mobile-screen-button"></i>
@@ -100,7 +97,7 @@
       </div>
     </div>
 
-    <!-- 2. ÉCRAN HÔTE - LOBBY (QR CODE + REJOINDRE) -->
+    <!-- 2. ÉCRAN HÔTE - LOBBY -->
     <div id="view-host-lobby" class="hidden space-y-6 text-center">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6 shadow-2xl">
         <div>
@@ -112,22 +109,20 @@
         </div>
 
         <div class="flex flex-col md:flex-row items-center justify-center gap-6 bg-slate-950/60 p-6 rounded-2xl border border-slate-800">
-          <!-- QR Code Container -->
           <div id="qrcode-container" class="bg-white p-4 rounded-xl shadow-xl border-4 border-purple-500"></div>
           
-          <!-- Code PIN explicite -->
           <div class="text-center md:text-left space-y-2">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Code PIN de la room</span>
             <div id="host-pin-display" class="text-5xl font-black tracking-widest text-pink-400 font-mono">
               ----
             </div>
             <p class="text-xs text-slate-500 max-w-xs">
-              Les téléphones se connectent en direct en P2P (WebRTC).
+              Les téléphones attribuent automatiquement un son de buzzer unique.
             </p>
           </div>
         </div>
 
-        <!-- Liste des joueurs connectés -->
+        <!-- Liste des joueurs avec leur icône/son de buzzer -->
         <div class="space-y-3">
           <div class="flex justify-between items-center max-w-md mx-auto">
             <span class="text-sm font-bold text-slate-400">Joueurs prêts</span>
@@ -140,7 +135,6 @@
           </div>
         </div>
 
-        <!-- Bouton Lancer la partie -->
         <button id="btn-start-game" onclick="startHostGame()" disabled class="w-full max-w-md mx-auto bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold text-lg py-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-3">
           <span>Lancer la partie 🚀</span>
         </button>
@@ -149,7 +143,21 @@
 
     <!-- 3. ÉCRAN HÔTE - EN JEU -->
     <div id="view-host-game" class="hidden space-y-6">
-      <!-- Moteur de recherche iTunes & Lecteur -->
+      
+      <!-- Sélection des Catégories -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-3 shadow-xl">
+        <div class="flex justify-between items-center">
+          <h3 class="font-bold text-sm text-slate-300 flex items-center gap-2">
+            <i class="fa-solid fa-list-ul text-pink-400"></i> Catégories musicales
+          </h3>
+          <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">Filtre rapide</span>
+        </div>
+        <div id="category-buttons" class="flex flex-wrap gap-2">
+          <!-- Catégories générées dynamiquement -->
+        </div>
+      </div>
+
+      <!-- Recherche iTunes & Lecteur -->
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
         <div class="flex flex-col md:flex-row gap-3">
           <div class="relative flex-1">
@@ -161,10 +169,8 @@
           </button>
         </div>
 
-        <!-- Résultats de recherche -->
         <div id="search-results" class="flex gap-3 overflow-x-auto pb-2 hidden"></div>
 
-        <!-- Player Audio & Pochette -->
         <div id="player-card" class="hidden bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center gap-4">
           <img id="track-cover" src="" alt="Album" class="w-24 h-24 rounded-xl object-cover blur-lg transition duration-500">
           <div class="flex-1 text-center sm:text-left space-y-1">
@@ -193,7 +199,7 @@
       </div>
     </div>
 
-    <!-- 4. ÉCRAN JOUEUR - FORMULAIRE REJOINDRE -->
+    <!-- 4. ÉCRAN JOUEUR - REJOINDRE -->
     <div id="view-player-join" class="hidden max-w-md mx-auto w-full space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6 shadow-2xl">
         <div class="text-center space-y-2">
@@ -211,20 +217,36 @@
             <input type="text" id="input-name" maxLength="12" placeholder="Ex: Alex" required class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-white text-center font-bold focus:outline-none focus:border-pink-500 transition">
           </div>
           <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-extrabold py-4 rounded-xl shadow-lg transition duration-200">
-            Valider & Attendre 🚀
+            Valider & Choisir le son 🚀
           </button>
         </form>
       </div>
     </div>
 
-    <!-- 5. ÉCRAN JOUEUR - ATTENTE DU LANCEMENT HÔTE -->
+    <!-- 5. ÉCRAN JOUEUR - ATTENTE + PERSONNALISATION SON DU BUZZER -->
     <div id="view-player-waiting" class="hidden text-center space-y-6 my-auto">
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-4 max-w-md mx-auto shadow-2xl">
-        <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center text-3xl mx-auto animate-bounce">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-5 max-w-md mx-auto shadow-2xl">
+        <div class="w-14 h-14 bg-purple-500/10 text-purple-400 rounded-full flex items-center justify-center text-2xl mx-auto animate-bounce">
           <i class="fa-solid fa-hourglass-half"></i>
         </div>
-        <h2 class="text-2xl font-bold">Connecté !</h2>
-        <p class="text-slate-400 text-sm">Vous êtes dans le lobby de la party. En attente du lancement par l'hôte...</p>
+        <div>
+          <h2 class="text-xl font-bold">Connecté !</h2>
+          <p class="text-slate-400 text-xs mt-1">Choisissez et testez votre son de buzzer en attendant l'hôte :</p>
+        </div>
+
+        <!-- Personnalisation du Son de Buzzer -->
+        <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3 text-left">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Son de votre buzzer</label>
+          <div class="flex gap-2">
+            <select id="player-sound-select" onchange="changePlayerSound()" class="flex-1 bg-slate-900 border border-slate-800 text-white text-xs font-semibold rounded-xl p-3 focus:outline-none focus:border-pink-500">
+              <!-- Rempli en JS -->
+            </select>
+            <button onclick="testPlayerSound()" class="bg-pink-600 hover:bg-pink-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+              <i class="fa-solid fa-volume-high"></i> Test
+            </button>
+          </div>
+        </div>
+
         <div class="inline-block bg-slate-950 px-4 py-2 rounded-full border border-slate-800 text-xs text-pink-400 font-mono" id="player-waiting-name">
           Pseudo : ---
         </div>
@@ -233,13 +255,14 @@
 
     <!-- 6. ÉCRAN JOUEUR - BUZZER MOBILE -->
     <div id="view-player-buzzer" class="hidden flex-1 flex flex-col justify-between py-4 max-w-md mx-auto w-full">
-      <!-- Top info -->
       <div class="flex justify-between items-center bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-xs">
-        <span id="player-display-name" class="font-bold text-slate-300">Joueur</span>
+        <div class="flex items-center gap-2">
+          <span id="player-display-name" class="font-bold text-slate-300">Joueur</span>
+          <span id="player-sound-badge" class="bg-slate-800 text-purple-400 text-[10px] px-2 py-0.5 rounded-full font-mono">🔊 Classic</span>
+        </div>
         <span id="player-display-score" class="bg-pink-500/20 text-pink-400 px-2.5 py-1 rounded-full font-black">Score : 0 pts</span>
       </div>
 
-      <!-- Gros Bouton Buzzer -->
       <div class="my-auto py-6">
         <button id="main-buzzer-btn" onclick="sendBuzz()" class="buzzer-active w-full aspect-square max-w-[280px] mx-auto rounded-full bg-gradient-to-tr from-pink-600 via-rose-500 to-red-500 border-8 border-slate-900 shadow-2xl pulse-glow flex flex-col items-center justify-center gap-2 transition duration-150 active:scale-95">
           <i class="fa-solid fa-hand-pointer text-5xl text-white"></i>
@@ -247,7 +270,6 @@
         </button>
       </div>
 
-      <!-- Statut du Buzzer -->
       <div id="player-buzz-feedback" class="text-center p-4 rounded-xl bg-slate-900 border border-slate-800 text-sm font-semibold text-slate-400">
         Prêt à buzzer !
       </div>
@@ -257,23 +279,151 @@
 
   <!-- ==================== LOGIQUE JAVASCRIPT ==================== -->
   <script>
-    // ETAT GLOBAL DE L'APPLICATION
-    let role = null; // 'HOST' ou 'PLAYER'
+    // LISTE DES SONS DE BUZZERS SYNTHÉTISÉS (Web Audio API)
+    const BUZZER_SOUNDS = [
+      { id: 'classic', name: '🚨 Buzzer Arcade', icon: '🚨' },
+      { id: 'laser', name: '⚡ Laser SF', icon: '⚡' },
+      { id: 'horn', name: '📯 Klaxon Rétro', icon: '📯' },
+      { id: 'bike', name: '🔔 Sonnette Vélo', icon: '🔔' },
+      { id: 'whistle', name: '⚽ Sifflet Sport', icon: '⚽' },
+      { id: 'gong', name: '🥁 Mini Gong', icon: '🥁' },
+      { id: 'pouet', name: '🤡 Pouet Pouet', icon: '🤡' },
+      { id: 'coin', name: '🪙 Pièce Mario', icon: '🪙' },
+      { id: 'boxing', name: '🥊 Cloche Boxe', icon: '🥊' },
+      { id: 'retro', name: '👾 8-Bit Jump', icon: '👾' }
+    ];
+
+    // CATÉGORIES DE CHANSONS PRÉDÉFINIES
+    const MUSIC_CATEGORIES = [
+      { name: "Pop & Hits", query: "pop hits 2020s" },
+      { name: "Disney / Animés", query: "disney soundtrack" },
+      { name: "Années 80", query: "80s hits" },
+      { name: "Années 90", query: "90s hits" },
+      { name: "Rock & Metal", query: "rock classics" },
+      { name: "Hip-Hop / Rap", query: "hip hop classics" },
+      { name: "BO / Films", query: "movie theme soundtrack" },
+      { name: "Variété Française", query: "variete francaise" }
+    ];
+
+    let role = null;
     let peer = null;
     let roomPin = null;
-    let hostConnectionList = {}; // { connId: { conn, name, score } }
+    let hostConnectionList = {};
     let playerPeerConn = null;
     let myPlayerName = '';
+    let myPlayerSoundId = 'classic';
     let myPlayerScore = 0;
     let currentBuzzedPlayer = null;
     let isGameStarted = false;
 
-    // ALPHANUMERIQUE POUR ROOM PIN
+    // SYNTHÉTISEUR AUDIO DE BUZZER (Web Audio API)
+    function playSynthesizedSound(soundId) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      switch(soundId) {
+        case 'laser':
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(100, now + 0.25);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+          break;
+        case 'horn':
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(220, now);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.4);
+          break;
+        case 'bike':
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, now);
+          osc.frequency.setValueAtTime(1600, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+          break;
+        case 'whistle':
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(2400, now);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+          break;
+        case 'gong':
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(150, now);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+          osc.start(now);
+          osc.stop(now + 0.8);
+          break;
+        case 'pouet':
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.linearRampToValueAtTime(320, now + 0.15);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+          break;
+        case 'coin':
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(987.77, now);
+          osc.frequency.setValueAtTime(1318.51, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+          break;
+        case 'boxing':
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          gain.gain.setValueAtTime(0.4, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+          osc.start(now);
+          osc.stop(now + 0.5);
+          break;
+        case 'retro':
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+          break;
+        case 'classic':
+        default:
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(880, now + 0.1);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+          break;
+      }
+    }
+
     function generatePin() {
       return Math.floor(1000 + Math.random() * 9000).toString();
     }
 
-    // GESTION DE LA NAVIGATION & BACK BUTTON
     function showView(viewId) {
       const views = [
         'view-home', 'view-host-lobby', 'view-host-game', 
@@ -283,11 +433,8 @@
       document.getElementById(viewId).classList.remove('hidden');
 
       const backBtn = document.getElementById('global-back-btn');
-      if (viewId === 'view-home') {
-        backBtn.classList.add('hidden');
-      } else {
-        backBtn.classList.remove('hidden');
-      }
+      if (viewId === 'view-home') backBtn.classList.add('hidden');
+      else backBtn.classList.remove('hidden');
     }
 
     function confirmQuit() {
@@ -297,7 +444,6 @@
       }
     }
 
-    // CHECK PARAMÈTRES URL (Si le joueur a scanné le QR Code)
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pinParam = urlParams.get('pin');
@@ -305,11 +451,27 @@
         showPlayerJoinForm();
         document.getElementById('input-pin').value = pinParam;
       }
+      renderCategoryButtons();
+      populateSoundSelectOptions();
     });
 
-    // =========================================================================
-    // SECTION 1 : LOGIQUE HÔTE (CREER LA ROOM / WEBRTC)
-    // =========================================================================
+    function renderCategoryButtons() {
+      const container = document.getElementById('category-buttons');
+      container.innerHTML = MUSIC_CATEGORIES.map(cat => `
+        <button onclick="selectCategory('${cat.query}')" class="bg-slate-950 hover:bg-purple-600/20 text-slate-300 hover:text-purple-300 text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-800 transition">
+          ${cat.name}
+        </button>
+      `).join('');
+    }
+
+    function populateSoundSelectOptions() {
+      const select = document.getElementById('player-sound-select');
+      select.innerHTML = BUZZER_SOUNDS.map(s => `
+        <option value="${s.id}">${s.name}</option>
+      `).join('');
+    }
+
+    // ==================== LOGIQUE HÔTE ====================
     function startHostLobby() {
       role = 'HOST';
       roomPin = generatePin();
@@ -317,12 +479,10 @@
 
       document.getElementById('host-pin-display').innerText = roomPin;
 
-      // Initialiser PeerJS pour l'hôte
       const hostPeerId = `blindtest-party-${roomPin}`;
       peer = new Peer(hostPeerId);
 
       peer.on('open', (id) => {
-        // Générer le QR Code dynamique avec l'URL + le parametre PIN
         const currentUrl = window.location.href.split('?')[0];
         const joinUrl = `${currentUrl}?pin=${roomPin}`;
         
@@ -337,7 +497,6 @@
         });
       });
 
-      // Écouter les connexions entrantes des portables joueurs
       peer.on('connection', (conn) => {
         if (Object.keys(hostConnectionList).length >= 10) {
           conn.send({ type: 'REJECT', message: 'Partie pleine (10 joueurs max)' });
@@ -346,7 +505,6 @@
         }
 
         conn.on('data', (data) => handleHostIncomingData(conn, data));
-        
         conn.on('close', () => {
           delete hostConnectionList[conn.peer];
           updateHostPlayersUI();
@@ -354,7 +512,6 @@
       });
 
       peer.on('error', (err) => {
-        console.error('Erreur PeerJS Hôte:', err);
         alert("Erreur de connexion réseau. Génération d'un nouveau code...");
         startHostLobby();
       });
@@ -362,27 +519,39 @@
 
     function handleHostIncomingData(conn, data) {
       if (data.type === 'JOIN_REQUEST') {
+        // Déterminer un son automatique basé sur l'index d'arrivée
+        const assignedSoundIdx = Object.keys(hostConnectionList).length % BUZZER_SOUNDS.length;
+        const assignedSound = BUZZER_SOUNDS[assignedSoundIdx];
+
         hostConnectionList[conn.peer] = {
           conn: conn,
           name: data.playerName,
+          soundId: assignedSound.id,
           score: 0
         };
-        conn.send({ type: 'JOIN_ACCEPTED', pin: roomPin });
+        conn.send({ type: 'JOIN_ACCEPTED', pin: roomPin, defaultSoundId: assignedSound.id });
         updateHostPlayersUI();
+      }
+
+      if (data.type === 'UPDATE_SOUND') {
+        if (hostConnectionList[conn.peer]) {
+          hostConnectionList[conn.peer].soundId = data.soundId;
+          updateHostPlayersUI();
+        }
       }
 
       if (data.type === 'BUZZ') {
         if (!currentBuzzedPlayer && isGameStarted) {
           currentBuzzedPlayer = hostConnectionList[conn.peer];
           
-          // Mettre en pause l'audio
+          // Jouer le son de buzzer spécifique du joueur sur l'écran Hôte !
+          playSynthesizedSound(currentBuzzedPlayer.soundId);
+
           const audioEl = document.getElementById('audio-element');
           if (audioEl) audioEl.pause();
 
-          // Notifier l'écran hôte
-          renderHostBuzzState(currentBuzzedPlayer.name);
+          renderHostBuzzState(currentBuzzedPlayer.name, currentBuzzedPlayer.soundId);
 
-          // Envoyer l'état aux 10 smartphones
           Object.values(hostConnectionList).forEach(p => {
             if (p.conn.peer === conn.peer) {
               p.conn.send({ type: 'BUZZ_WIN' });
@@ -406,11 +575,14 @@
         listContainer.innerHTML = `<span class="text-xs text-slate-600 self-center">En attente de connexion des joueurs...</span>`;
         startBtn.disabled = true;
       } else {
-        listContainer.innerHTML = players.map(p => `
-          <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5">
-            <i class="fa-solid fa-user text-[10px]"></i> ${p.name}
-          </span>
-        `).join('');
+        listContainer.innerHTML = players.map(p => {
+          const sObj = BUZZER_SOUNDS.find(s => s.id === p.soundId) || BUZZER_SOUNDS[0];
+          return `
+            <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5">
+              <span>${sObj.icon}</span> ${p.name}
+            </span>
+          `;
+        }).join('');
         startBtn.disabled = false;
       }
 
@@ -420,16 +592,17 @@
     function startHostGame() {
       isGameStarted = true;
       showView('view-host-game');
-
-      // Prévenir tous les joueurs que la partie démarre
       Object.values(hostConnectionList).forEach(p => {
         p.conn.send({ type: 'GAME_STARTED' });
       });
-
       renderHostScoreboard();
     }
 
-    // ITUNES SEARCH API
+    function selectCategory(query) {
+      document.getElementById('search-query').value = query;
+      searchITunes();
+    }
+
     async function searchITunes() {
       const query = document.getElementById('search-query').value.trim();
       if (!query) return;
@@ -480,12 +653,13 @@
       document.getElementById('track-cover').classList.toggle('blur-lg');
     }
 
-    function renderHostBuzzState(winnerName) {
+    function renderHostBuzzState(winnerName, soundId) {
+      const sObj = BUZZER_SOUNDS.find(s => s.id === soundId) || BUZZER_SOUNDS[0];
       const area = document.getElementById('buzz-display-area');
       area.innerHTML = `
         <div class="space-y-3">
           <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-            🔔 Premier à avoir buzze !
+            ${sObj.icon} Buzzer déclenché par :
           </span>
           <h2 class="text-3xl font-black text-white">${winnerName}</h2>
           <div class="flex justify-center gap-3 pt-2">
@@ -508,8 +682,6 @@
       document.getElementById('buzz-display-area').innerHTML = `
         <p class="text-slate-500 text-sm">En attente d'un buzz...</p>
       `;
-
-      // Réinitialiser le buzzer sur tous les mobiles
       Object.values(hostConnectionList).forEach(p => {
         p.conn.send({ type: 'RESET_BUZZER' });
       });
@@ -523,9 +695,7 @@
         confetti({ particleCount: 70, spread: 60, origin: { y: 0.7 } });
       }
 
-      // Notifier le joueur gagnant de son nouveau score
       currentBuzzedPlayer.conn.send({ type: 'SCORE_UPDATE', newScore: currentBuzzedPlayer.score });
-
       renderHostScoreboard();
       resetBuzzState();
     }
@@ -535,27 +705,28 @@
       const players = Object.values(hostConnectionList).sort((a, b) => b.score - a.score);
 
       if (players.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500">Aucun joueur connecte.</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-500">Aucun joueur connecté.</p>`;
         return;
       }
 
-      container.innerHTML = players.map((p, idx) => `
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-bold text-slate-500">#${idx + 1}</span>
-            <span class="font-bold text-sm text-white">${p.name}</span>
+      container.innerHTML = players.map((p, idx) => {
+        const sObj = BUZZER_SOUNDS.find(s => s.id === p.soundId) || BUZZER_SOUNDS[0];
+        return `
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold text-slate-500">#${idx + 1}</span>
+              <span class="text-sm">${sObj.icon}</span>
+              <span class="font-bold text-sm text-white">${p.name}</span>
+            </div>
+            <span class="font-black text-pink-400 text-sm bg-pink-500/10 px-2.5 py-0.5 rounded-lg border border-pink-500/20">
+              ${p.score} pts
+            </span>
           </div>
-          <span class="font-black text-pink-400 text-sm bg-pink-500/10 px-2.5 py-0.5 rounded-lg border border-pink-500/20">
-            ${p.score} pts
-          </span>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-
-    // =========================================================================
-    // SECTION 2 : LOGIQUE JOUEUR (SMARTPHONE BUZZER)
-    // =========================================================================
+    // ==================== LOGIQUE JOUEUR ====================
     function showPlayerJoinForm() {
       role = 'PLAYER';
       showView('view-player-join');
@@ -572,7 +743,6 @@
       document.getElementById('player-waiting-name').innerText = `Pseudo : ${myPlayerName}`;
       document.getElementById('player-display-name').innerText = myPlayerName;
 
-      // Connexion PeerJS au host
       peer = new Peer();
       const hostPeerId = `blindtest-party-${pin}`;
 
@@ -584,7 +754,6 @@
         });
 
         playerPeerConn.on('data', (data) => handlePlayerIncomingData(data));
-
         playerPeerConn.on('close', () => {
           alert("Déconnecté de l'hôte.");
           location.reload();
@@ -598,6 +767,11 @@
 
     function handlePlayerIncomingData(data) {
       if (data.type === 'JOIN_ACCEPTED') {
+        if (data.defaultSoundId) {
+          myPlayerSoundId = data.defaultSoundId;
+          document.getElementById('player-sound-select').value = myPlayerSoundId;
+          updateSoundBadge();
+        }
         showView('view-player-waiting');
       }
 
@@ -629,8 +803,27 @@
       }
     }
 
+    function changePlayerSound() {
+      myPlayerSoundId = document.getElementById('player-sound-select').value;
+      updateSoundBadge();
+      testPlayerSound();
+      if (playerPeerConn) {
+        playerPeerConn.send({ type: 'UPDATE_SOUND', soundId: myPlayerSoundId });
+      }
+    }
+
+    function testPlayerSound() {
+      playSynthesizedSound(myPlayerSoundId);
+    }
+
+    function updateSoundBadge() {
+      const sObj = BUZZER_SOUNDS.find(s => s.id === myPlayerSoundId) || BUZZER_SOUNDS[0];
+      document.getElementById('player-sound-badge').innerText = `${sObj.icon} ${sObj.name.split(' ')[1] || ''}`;
+    }
+
     function sendBuzz() {
       if (playerPeerConn) {
+        playSynthesizedSound(myPlayerSoundId);
         if (navigator.vibrate) navigator.vibrate(80);
         playerPeerConn.send({ type: 'BUZZ' });
       }
